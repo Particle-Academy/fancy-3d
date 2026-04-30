@@ -61,22 +61,31 @@ scene.nodes.forEach((node) => {
 
 ## Architecture
 
-`@particle-academy/fancy-3d` is structured around **engine-agnostic scene data + per-engine adapters**:
+`@particle-academy/fancy-3d` exists to deliver `react-fancy` components into 3D environments — in **all the ways a 3D UI might need them**:
+
+| Mode | What | When |
+|------|------|------|
+| **Texture** | Paint a widget into a `DynamicTexture` and apply it to any primitive's surface. | Static panels, billboards, dashboards, signage. Shipped today. |
+| **Mount** | Host a live React tree on a 3D mesh via DOM overlay + `matrix3d` projection — fully interactive, keyboard accessible. | Anywhere you want the actual interactive UI inside a 3D scene. Shipped today via `<Stage>` + `<Screen>`. |
+| **Bump-out / Puffy** | Extruded 3D interpretations of 2D components — buttons that physically protrude, cards with depth, embossed badges. Each interactive subregion is its own pickable mesh. | Spatial / mixed-reality UIs where the interface IS the geometry. Planned. |
+
+The data layer underneath is engine-agnostic — same `Scene` JSON renders across DOM, Babylon, and (pluggable) three.js / native canvas. Subpath imports keep the bundle minimal:
 
 ```
 @particle-academy/fancy-3d           Scene types (Scene, WidgetSpec, WidgetAdapter)
 @particle-academy/fancy-3d/dom       DOM adapter — renders to react-fancy components
 @particle-academy/fancy-3d/babylon   Babylon adapter + 3D shape primitives
+@particle-academy/fancy-3d/react     <Stage> + <Screen> for live React on 3D meshes
 ```
 
-The same `Scene` JSON renders identically across engines. Add a new engine by writing a `WidgetAdapter<T>` that maps each `WidgetSpec` to that engine's render output (Babylon `Mesh`, three.js `Object3D`, etc.).
+`react-fancy` is a peer dependency by design: this package exists *to put react-fancy in 3D*, so consumers always install both — the peer relationship just lets you pin the react-fancy version.
 
 ## Documentation
 
 - [Scene types & widget kinds](./docs/scene.md) — the engine-agnostic data model
 - [DOM adapter](./docs/dom-adapter.md) — render Scene as react-fancy components
 - [Babylon adapter](./docs/babylon-adapter.md) — render Scene as Babylon meshes + dynamic textures
-- [Primitives](./docs/primitives.md) — `createPanel`, `createBillboard`, `createBuilding`, `createCylinder`, `createCurvedPanel`, `createWidgetTexture`
+- [Primitives](./docs/primitives.md) — `createPanel`, `createBillboard`, `createBuilding`, `createCylinder`, `createCurvedPanel`, `createWidgetTexture`, `createSign`, `createMonitor`, `createCard3D`, `createSphere`, `createDisc`, `createPillar`, `createDecal`
 - [Screen widget](./docs/screen.md) — 3D-native widget for hardware-display visuals
 
 ## License
