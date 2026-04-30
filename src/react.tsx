@@ -375,14 +375,17 @@ export function Screen({
       ];
       const worldCorners = localCorners.map((v) => Vector3.TransformCoordinates(v, wm));
 
-      // Backface cull — hide overlay when the mesh's front isn't facing camera.
+      // Edge-on cull only — hide overlay when the panel is nearly perpendicular
+      // to the camera ray (where the projected quad collapses and matrix3d
+      // becomes singular). The matrix3d transform handles both front and
+      // back side rendering naturally, so we don't strictly cull by side.
       const camPos = cam.globalPosition;
       const right = worldCorners[1].subtract(worldCorners[0]);
       const up = worldCorners[0].subtract(worldCorners[3]);
       const normal = Vector3.Cross(up, right).normalize();
       const center = worldCorners[0].add(worldCorners[2]).scale(0.5);
       const toCam = camPos.subtract(center).normalize();
-      const facing = Vector3.Dot(normal, toCam);
+      const facing = Math.abs(Vector3.Dot(normal, toCam));
 
       const projected = worldCorners.map((c) => Vector3.Project(c, identity, tm, viewport));
       const inFrustum = projected.every((p) => p.z >= 0 && p.z <= 1);
