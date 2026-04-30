@@ -396,6 +396,16 @@ export function Screen({
         return;
       }
 
+      // Depth-sort overlays: nearer-to-camera panels stack above farther ones.
+      // Without this, DOM document order decides stacking and side screens
+      // can render on top of the center screen even when 3D depth says
+      // otherwise. NDC z is 0 at the near plane and 1 at the far plane, so
+      // closer-to-camera = smaller z = higher z-index.
+      const avgZ = (projected[0].z + projected[1].z + projected[2].z + projected[3].z) / 4;
+      const depthZIndex = Math.round(Math.max(0, Math.min(1, 1 - avgZ)) * 100000);
+      const zStr = String(depthZIndex);
+      if (overlay.style.zIndex !== zStr) overlay.style.zIndex = zStr;
+
       const dpr = window.devicePixelRatio || 1;
       const w0 = innerSize.current.w;
       const h0 = innerSize.current.h;
