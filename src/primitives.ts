@@ -506,22 +506,29 @@ export function createMonitor(opts: MonitorOpts): MonitorResult {
   body.parent = root;
 
   // Screen face — sits flush at the front (+Z) face of the bezel.
-  // Default Babylon camera (ArcRotateCamera at alpha=π/2) is positioned on
-  // the +Z side, so the body's +Z face is what the user sees first; the
-  // screen mounts in front of it. DOUBLESIDE so a back-orbit still shows
-  // the screen instead of the back of an invisible plane.
+  // Babylon's default plane has its visible face on -Z (per the docs:
+  // "default plane faces the negative Z direction"). The default
+  // ArcRotateCamera sits at +Z, so we need the screen's visible face to
+  // point +Z. `BACKSIDE` orientation flips visibility from -Z to +Z without
+  // rotating the plane (which would also mirror the texture). The screen
+  // sits 0.001 in front of the body's +Z face so it's not occluded.
   const screenInset = 0.04;
   const screenW = opts.width - screenInset * 2;
   const screenH = opts.height - screenInset * 2;
-  const screen = createPanel({
+  // Use a very thin extruded card for the screen face. This delegates to
+  // createBuilding's per-face Box atlas, which handles UV orientation
+  // correctly out of the box (a flat Plane's UVs render mirrored from the
+  // default camera angle without orientation gymnastics).
+  const screen = createCard3D({
     scene: opts.scene,
     name: `${name}-screen`,
     width: screenW,
     height: screenH,
-    surface: opts.screen,
-    sideOrientation: Mesh.DOUBLESIDE,
+    depth: 0.01,
+    front: opts.screen,
+    edge: { type: "color", color: bezelColor },
   });
-  screen.position = new Vector3(0, 0, depth / 2 + 0.001);
+  screen.position = new Vector3(0, 0, depth / 2 + 0.005);
   screen.parent = root;
 
   let stand: Mesh | undefined;
