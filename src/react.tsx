@@ -323,10 +323,13 @@ export function Screen({
     // Inner pane the overlay tracks. Its background fills behind the React
     // overlay (in case the overlay is briefly mispositioned); the React
     // children are stamped on top.
-    const pane = MeshBuilder.CreatePlane(`${name}-pane`, { width, height }, scene);
+    const pane = MeshBuilder.CreatePlane(`${name}-pane`, { width, height, sideOrientation: Mesh.DOUBLESIDE }, scene);
     pane.position = new Vector3(position[0], position[1], position[2]);
     pane.rotation.y = rotationY;
-    const forward = new Vector3(0, 0, -1);
+    // The bezel's "front" face is on +Z (default camera sits on +Z). Offset
+    // the pane forward of that face so the React HTML overlay lines up with
+    // the visible front of the bezel rather than its hidden back.
+    const forward = new Vector3(0, 0, 1);
     const rot = Matrix.RotationY(rotationY);
     const offset = Vector3.TransformNormal(forward.scale(bezelThickness / 2 + 0.001), rot);
     pane.position.addInPlace(offset);

@@ -110,11 +110,14 @@ export interface PanelOpts {
   width: number;
   height: number;
   surface: SurfaceContent;
+  /** Babylon sideOrientation. Use `Mesh.DOUBLESIDE` for panels you want visible
+   *  from both directions (e.g. self-luminous screens). Default is FRONTSIDE. */
+  sideOrientation?: number;
 }
 
 export function createPanel(opts: PanelOpts): Mesh {
   const name = opts.name ?? "panel";
-  const m = MeshBuilder.CreatePlane(name, { width: opts.width, height: opts.height }, opts.scene);
+  const m = MeshBuilder.CreatePlane(name, { width: opts.width, height: opts.height, sideOrientation: opts.sideOrientation }, opts.scene);
   const { material } = buildSurface(opts.scene, name, opts.surface, {
     worldWidth: opts.width,
     worldHeight: opts.height,
@@ -502,7 +505,11 @@ export function createMonitor(opts: MonitorOpts): MonitorResult {
   body.material = bodyMat;
   body.parent = root;
 
-  // Screen face — sits flush at the front of the bezel
+  // Screen face — sits flush at the front (+Z) face of the bezel.
+  // Default Babylon camera (ArcRotateCamera at alpha=π/2) is positioned on
+  // the +Z side, so the body's +Z face is what the user sees first; the
+  // screen mounts in front of it. DOUBLESIDE so a back-orbit still shows
+  // the screen instead of the back of an invisible plane.
   const screenInset = 0.04;
   const screenW = opts.width - screenInset * 2;
   const screenH = opts.height - screenInset * 2;
@@ -512,9 +519,9 @@ export function createMonitor(opts: MonitorOpts): MonitorResult {
     width: screenW,
     height: screenH,
     surface: opts.screen,
+    sideOrientation: Mesh.DOUBLESIDE,
   });
-  // Front of the body is at z=-depth/2 (Babylon plane front faces -Z)
-  screen.position = new Vector3(0, 0, -depth / 2 - 0.001);
+  screen.position = new Vector3(0, 0, depth / 2 + 0.001);
   screen.parent = root;
 
   let stand: Mesh | undefined;
