@@ -5,8 +5,8 @@
 ## What's inside
 
 - **`<Canvas engine="dom" | "babylon" | CustomEngine>`** — engine-pluggable 2D pan/zoom surface. Default Web3D (CSS3D matrix projection, the same approach used by `Stage` and the DOM adapter), opt into Babylon, or pass any object implementing `CanvasEngine` for three.js / native canvas / WebXR. The 2D node graph and the 3D scene root live alongside each other; this is the foundation for hybrid 2D-in-3D and MR scenes.
-- **`<Stage>` / `<Screen>`** — engine-agnostic 3D scene primitives with a Babylon adapter
-- **`<Card3D>`, `<Decal>`, `<Monitor>`** — 3D-native UI widgets
+- **`<Stage>` / `<Monitor>`** — engine-agnostic 3D scene primitives with a Babylon adapter (`<Monitor>` was `<Screen>` before v0.3.0)
+- **`<Card3D>`, `<Decal>`** — 3D-native UI widgets
 - **Shape primitives, layout helpers, JSON-friendly Scene types** — terse, agent-authorable scene descriptions
 
 ## Why fancy-3d exists
@@ -106,7 +106,7 @@ scene.nodes.forEach((node) => {
 | Mode | What | When |
 |------|------|------|
 | **Texture** | Paint a widget into a `DynamicTexture` and apply it to any primitive's surface. | Static panels, billboards, dashboards, signage. Shipped today. |
-| **Mount** | Host a live React tree on a 3D mesh via DOM overlay + `matrix3d` projection — fully interactive, keyboard accessible. | Anywhere you want the actual interactive UI inside a 3D scene. Shipped today via `<Stage>` + `<Screen>`. |
+| **Mount** | Host a live React tree on a 3D mesh via DOM overlay + `matrix3d` projection — fully interactive, keyboard accessible. | Anywhere you want the actual interactive UI inside a 3D scene. Shipped today via `<Stage>` + `<Monitor>`. |
 | **Bump-out / Puffy** | Extruded 3D interpretations of 2D components — buttons that physically protrude, cards with depth, embossed badges. Each interactive subregion is its own pickable mesh. | Spatial / mixed-reality UIs where the interface IS the geometry. Planned. |
 
 The data layer underneath is engine-agnostic — same `Scene` JSON renders across DOM, Babylon, and (pluggable) three.js / native canvas. Subpath imports keep the bundle minimal:
@@ -115,7 +115,7 @@ The data layer underneath is engine-agnostic — same `Scene` JSON renders acros
 @particle-academy/fancy-3d           Scene types (Scene, WidgetSpec, WidgetAdapter)
 @particle-academy/fancy-3d/dom       DOM adapter — renders to react-fancy components
 @particle-academy/fancy-3d/babylon   Babylon adapter + 3D shape primitives
-@particle-academy/fancy-3d/react     <Stage> + <Screen> for live React on 3D meshes
+@particle-academy/fancy-3d/react     <Stage> + <Monitor> for live React on 3D meshes
 ```
 
 `react-fancy` is a peer dependency by design: this package exists *to put react-fancy in 3D*, so consumers always install both — the peer relationship just lets you pin the react-fancy version.

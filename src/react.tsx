@@ -1,17 +1,21 @@
 /**
- * `<Stage>` and `<Screen>` — declarative React API for fancy-3d.
+ * `<Stage>` and `<Monitor>` — declarative React API for fancy-3d.
  *
  *   <Stage>
- *     <Screen position={[0, 2, 0]} width={4} height={2.5}>
+ *     <Monitor position={[0, 2, 0]} width={4} height={2.5}>
  *       <Card>...real react-fancy components...</Card>
- *     </Screen>
+ *     </Monitor>
  *   </Stage>
  *
  * `<Stage>` owns the Babylon engine + scene + render loop and exposes them
- * via context. `<Screen>` builds a bezel mesh, projects its world-space
+ * via context. `<Monitor>` builds a bezel mesh, projects its world-space
  * corners to screen space each frame, and renders its children into a
  * positioned DOM overlay. Children are real React: full interactivity,
  * accessibility, and styling — no canvas-rasterized snapshot.
+
+ * Renamed from `<Screen>` in v0.3.0 to free the name for
+ * `@particle-academy/fancy-screens`'s `<Screen>` (containerized application
+ * surface). The behavior here is unchanged.
  *
  * Tradeoffs of mount mode (vs. painted texture):
  * - Pro: live, interactive, perfect text rendering.
@@ -256,10 +260,10 @@ export function Stage({
 }
 
 /* ------------------------------------------------------------------ */
-/* Screen — interactive mount point on a 3D mesh                       */
+/* Monitor — interactive mount point on a 3D mesh                      */
 /* ------------------------------------------------------------------ */
 
-export interface ScreenProps {
+export interface MonitorProps {
   children?: ReactNode;
   /** World-space center of the screen. */
   position: [number, number, number];
@@ -282,7 +286,7 @@ export interface ScreenProps {
   name?: string;
 }
 
-export function Screen({
+export function Monitor({
   children,
   position,
   width,
@@ -294,7 +298,7 @@ export function Screen({
   pixelWidth,
   pixelHeight,
   name = "screen",
-}: ScreenProps) {
+}: MonitorProps) {
   const stage = useStage();
   const meshRef = useRef<Mesh | null>(null);
   const overlayRef = useRef<HTMLDivElement | null>(null);
