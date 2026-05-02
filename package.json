@@ -1,6 +1,6 @@
 {
   "name": "@particle-academy/fancy-3d",
-  "version": "0.1.6",
+  "version": "0.2.0",
   "description": "Bring Particle Academy's fancy components into 3D — engine-agnostic scene types, a BabylonJS adapter, and 3D-native components like Screen.",
   "repository": {
     "type": "git",
@@ -51,6 +51,16 @@
       "require": {
         "types": "./dist/react.d.cts",
         "default": "./dist/react.cjs"
+      }
+    },
+    "./canvas": {
+      "import": {
+        "types": "./dist/canvas/index.d.ts",
+        "default": "./dist/canvas/index.js"
+      },
+      "require": {
+        "types": "./dist/canvas/index.d.cts",
+        "default": "./dist/canvas/index.cjs"
       }
     }
   },

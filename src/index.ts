@@ -43,3 +43,35 @@ export { nextId, renderScene } from "./scene";
  *
  *   import { createPanel, createBuilding } from "@particle-academy/fancy-3d/babylon";
  */
+
+/**
+ * `<Canvas>` — engine-pluggable 2D pan/zoom surface. Default `engine="dom"`
+ * (no extra runtime), opt into Babylon via `engine="babylon"`, or pass any
+ * `CanvasEngine` to embed three.js, native canvas, WebXR, etc. The 2D node
+ * graph and the active 3D scene live alongside each other; this is the
+ * foundation for hybrid 2D-in-3D and Mixed Reality scenes.
+ *
+ *   import { Canvas, useCanvas } from "@particle-academy/fancy-3d/canvas";
+ *
+ * Re-exported here for discoverability; subpath import is tree-shake friendly.
+ */
+export {
+  Canvas,
+  useCanvas,
+  domEngine,
+  babylonEngine,
+} from "./canvas";
+export type {
+  CanvasProps,
+  CanvasNodeProps,
+  CanvasEdgeProps,
+  CanvasMinimapProps,
+  CanvasControlsProps,
+  CanvasContextValue,
+  CanvasEngine,
+  CanvasEngineSpec,
+  EngineHandle,
+  ViewportState,
+  EdgeAnchor,
+  GridStyle,
+} from "./canvas";

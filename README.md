@@ -1,6 +1,17 @@
 # @particle-academy/fancy-3d
 
-A UI kit designed to make it easy for humans and agents to create rich, data-driven 3D applications. Describe what you want with engine-agnostic scene data, drop in primitives like `createBuilding` or `createBillboard`, and pick a renderer — DOM (react-fancy) or 3D (BabylonJS today; three.js / native canvas pluggable). Same JSON, two render targets, ergonomic enough that an LLM can author scenes directly.
+**A versatile middleware for blending 3D engines and 2D web components into Mixed Reality UX.** fancy-3d is the bridge layer where react-fancy components, Babylon scenes, and 2D pan/zoom canvases compose into a single authoring surface — designed for humans and agents to build rich, data-driven 3D and MR applications without picking sides.
+
+## What's inside
+
+- **`<Canvas engine="dom" | "babylon" | CustomEngine>`** — engine-pluggable 2D pan/zoom surface. Default Web3D (CSS3D matrix projection, the same approach used by `Stage` and the DOM adapter), opt into Babylon, or pass any object implementing `CanvasEngine` for three.js / native canvas / WebXR. The 2D node graph and the 3D scene root live alongside each other; this is the foundation for hybrid 2D-in-3D and MR scenes.
+- **`<Stage>` / `<Screen>`** — engine-agnostic 3D scene primitives with a Babylon adapter
+- **`<Card3D>`, `<Decal>`, `<Monitor>`** — 3D-native UI widgets
+- **Shape primitives, layout helpers, JSON-friendly Scene types** — terse, agent-authorable scene descriptions
+
+## Why fancy-3d exists
+
+Most 3D libraries force a choice between immersive engines and DOM productivity. fancy-3d treats both as first-class: 2D React components project onto 3D meshes, 3D scenes embed inside HTML layouts, and the same `Scene` type drives either. react-fancy components are the raison d'être — fancy-3d makes them legible in space.
 
 ## Installation
 
@@ -9,20 +20,49 @@ A UI kit designed to make it easy for humans and agents to create rich, data-dri
 npm install @particle-academy/fancy-3d
 
 # Plus whichever engine you target (both peer deps are optional):
-npm install @particle-academy/react-fancy   # for the DOM adapter
-npm install @babylonjs/core                 # for the Babylon adapter
+npm install @particle-academy/react-fancy   # for the DOM adapter / 2D widgets
+npm install @babylonjs/core                 # for the Babylon engine + adapter
 ```
 
 **Peer dependencies (all optional):** `react >= 18`, `react-dom >= 18`, `@particle-academy/react-fancy`, `@babylonjs/core >= 7`
 
 Install only the engines you target — the package is split into subpath imports so unused engines don't pull into your bundle.
 
-## Quick Start
+## Quick Start — the engine-pluggable Canvas
+
+```tsx
+import { Canvas } from "@particle-academy/fancy-3d/canvas";
+import { Card } from "@particle-academy/react-fancy";
+
+// Default: DOM/Web3D — no extra runtime, just a 2D pan/zoom surface
+export function Dashboard() {
+  return (
+    <Canvas engine="dom" showGrid className="h-96 w-full">
+      <Canvas.Node id="kpi" x={40} y={40} style={{ width: 220, height: 110 }}>
+        <Card><Card.Body>Revenue $48k +12%</Card.Body></Card>
+      </Canvas.Node>
+    </Canvas>
+  );
+}
+
+// Same JSX, Babylon scene mounted alongside — 3D meshes can register against
+// useCanvas().engine.root (the live BABYLON.Scene) and share the 2D viewport.
+export function MixedRealityDashboard() {
+  return (
+    <Canvas engine="babylon" className="h-96 w-full">
+      {/* Children render as 2D DOM nodes;
+          a sibling component reads useCanvas().engine to add 3D meshes. */}
+    </Canvas>
+  );
+}
+```
+
+## Quick Start — Scene-driven (legacy DOM/Babylon adapters)
 
 ```tsx
 import type { Scene } from "@particle-academy/fancy-3d";
 import { domAdapter } from "@particle-academy/fancy-3d/dom";
-import { Canvas } from "@particle-academy/react-fancy";
+import { Canvas } from "@particle-academy/fancy-3d/canvas";
 
 const scene: Scene = {
   nodes: [
