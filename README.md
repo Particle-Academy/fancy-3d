@@ -128,6 +128,23 @@ The data layer underneath is engine-agnostic — same `Scene` JSON renders acros
 - [Primitives](./docs/primitives.md) — `createPanel`, `createBillboard`, `createBuilding`, `createCylinder`, `createCurvedPanel`, `createWidgetTexture`, `createSign`, `createMonitor`, `createCard3D`, `createSphere`, `createDisc`, `createPillar`, `createDecal`
 - [Screen widget](./docs/screen.md) — 3D-native widget for hardware-display visuals
 
+## Inertia.js integration
+
+fancy-3d is **not SSR-safe** — Babylon needs `window` and DOM/CSS3D positioning needs layout measurement. In an Inertia app, wrap every `<Stage>` / `<Monitor>` / `<Card3D>` / `<Canvas engine="babylon">` in [`<FancyClientOnly>`](https://github.com/Particle-Academy/fancy-inertia/blob/main/docs/USAGE.md#fancyclientonly) from `@particle-academy/fancy-inertia`:
+
+```tsx
+import { FancyClientOnly } from "@particle-academy/fancy-inertia";
+import { Stage, Monitor } from "@particle-academy/fancy-3d/react";
+
+<FancyClientOnly fallback={<div className="h-[600px] animate-pulse rounded bg-zinc-100" />}>
+  <Stage>
+    <Monitor position={[0, 1.6, 0]} width={3.2} height={2}>…</Monitor>
+  </Stage>
+</FancyClientOnly>
+```
+
+`<Canvas engine="dom">` (the default) is partially SSR-safe — node tree renders, but pan/zoom only activates client-side. See [fancy-inertia/docs/SSR.md](https://github.com/Particle-Academy/fancy-inertia/blob/main/docs/SSR.md#particle-academyfancy-3d) for the full matrix.
+
 ## License
 
 MIT
