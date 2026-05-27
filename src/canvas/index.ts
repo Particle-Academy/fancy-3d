@@ -15,4 +15,3 @@ export type {
   EngineHandle,
 } from "./Canvas.types";
 export { domEngine } from "./engines/dom";
-export { babylonEngine } from "./engines/babylon";

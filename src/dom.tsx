@@ -3,7 +3,8 @@
  *
  * Renders an engine-agnostic `Scene` to React elements composed from
  * `@particle-academy/react-fancy` components. This is the reference 2D
- * adapter — siblings include `./babylon` for 3D.
+ * adapter. WebGL adapters ship as sibling packages — e.g.
+ * `@particle-academy/fancy-3d-babylon`.
  *
  * `@particle-academy/react-fancy` is an OPTIONAL peer dependency.
  */

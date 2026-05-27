@@ -51,10 +51,14 @@ export interface CanvasProps {
   fitOnMount?: boolean;
   /**
    * 3D engine to mount alongside the 2D canvas. Default `"dom"` (no extra
-   * engine — plain DOM/CSS3D). Pass `"babylon"` to mount a Babylon `Scene`
-   * over the canvas, or any object implementing `CanvasEngine` for custom
-   * engines (three.js, native canvas, WebXR). The active engine is exposed
-   * via `useCanvas().engine`.
+   * engine — plain DOM/CSS3D). For WebGL pass an engine object from a
+   * companion adapter package, e.g.
+   *
+   *   import { babylonEngine } from "@particle-academy/fancy-3d-babylon/engine";
+   *   <Canvas engine={babylonEngine} />
+   *
+   * Or implement `CanvasEngine` yourself for three.js, native canvas, WebXR,
+   * etc. The active engine is exposed via `useCanvas().engine`.
    */
   engine?: CanvasEngineSpec;
   className?: string;

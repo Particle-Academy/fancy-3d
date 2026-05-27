@@ -9,13 +9,14 @@ import { CanvasEdge } from "./CanvasEdge";
 import { CanvasMinimap } from "./CanvasMinimap";
 import { CanvasControls } from "./CanvasControls";
 import { domEngine } from "./engines/dom";
-import { babylonEngine } from "./engines/babylon";
 import type { CanvasEngine, CanvasEngineSpec, EngineHandle } from "./Canvas.engine";
 import type { CanvasProps } from "./Canvas.types";
 
+// fancy-3d ships only the engine-agnostic core + the DOM engine.
+// WebGL engines live in companion packages (e.g. @particle-academy/fancy-3d-babylon)
+// — import the engine from there and pass the object directly via <Canvas engine={...}>.
 function resolveEngine(spec: CanvasEngineSpec | undefined): CanvasEngine {
   if (!spec || spec === "dom") return domEngine;
-  if (spec === "babylon") return babylonEngine;
   return spec;
 }
 

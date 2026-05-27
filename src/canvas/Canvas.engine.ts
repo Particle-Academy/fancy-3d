@@ -2,12 +2,16 @@ import type { ViewportState } from "../hooks/use-pan-zoom";
 
 /**
  * The CanvasEngine interface lets `<Canvas>` host any 3D backend alongside
- * its 2D pan/zoom surface. Built-in engines: `dom` (default — plain DOM/CSS3D,
- * what fancy-3d has used so far) and `babylon` (mounts a Babylon `Scene` and
- * camera adjacent to the canvas DOM container).
+ * its 2D pan/zoom surface.
  *
- * Implement this interface to plug in three.js, native canvas, WebXR, or any
- * future spatial runtime. Pass the implementation directly to `<Canvas engine>`.
+ * fancy-3d itself ships only the engine-agnostic core + the `dom` engine
+ * (plain DOM / CSS3D). WebGL engines live in companion adapter packages:
+ *
+ *   - `@particle-academy/fancy-3d-babylon` for BabylonJS
+ *   - (sibling packages can ship three.js, WebGPU, WebXR, etc.)
+ *
+ * Implement this interface to plug in any future spatial runtime. Pass the
+ * implementation directly to `<Canvas engine={yourEngine}>`.
  */
 export interface CanvasEngine {
   /** Identifier surfaced via {@link EngineHandle.name} for adapters that
@@ -31,7 +35,7 @@ export interface EngineHandle {
    * the `dom` engine the host `HTMLElement` itself.
    *
    * Adapter components that target a specific engine should narrow with
-   * `if (engine?.name === "babylon") { const scene = engine.root as BJScene; ... }`.
+   * `if (engine?.name === "babylon") { const scene = engine.root as Scene; ... }`.
    */
   root: unknown;
   /**
@@ -44,5 +48,9 @@ export interface EngineHandle {
   dispose(): void;
 }
 
-/** Built-in engine string shorthands. */
-export type CanvasEngineSpec = CanvasEngine | "dom" | "babylon";
+/**
+ * String shorthand for built-in engines. Only `"dom"` is currently built
+ * into fancy-3d itself; pass a `CanvasEngine` object for any other backend
+ * (e.g. `babylonEngine` from `@particle-academy/fancy-3d-babylon/engine`).
+ */
+export type CanvasEngineSpec = CanvasEngine | "dom";
