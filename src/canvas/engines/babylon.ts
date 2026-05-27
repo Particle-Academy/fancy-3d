@@ -10,12 +10,18 @@
 import type { CanvasEngine, EngineHandle } from "../Canvas.engine";
 import type { ViewportState } from "../../hooks/use-pan-zoom";
 
+// Declare a CJS-style `require` so the dts compiler doesn't reject the lazy
+// load below. Browsers don't have `require`, but this whole engine adapter
+// only runs when a host bundler (vite/webpack) replaces the call with its own
+// lazy-module shim, or under node-side SSR where the global exists.
+declare const require: (specifier: string) => unknown;
+
 export const babylonEngine: CanvasEngine = {
   name: "babylon",
   mount(host: HTMLElement, viewport: ViewportState): EngineHandle {
     // Lazy require so non-babylon Canvas users don't pay the parse cost.
     // eslint-disable-next-line @typescript-eslint/no-require-imports
-    const BABYLON = require("@babylonjs/core");
+    const BABYLON: any = require("@babylonjs/core");
 
     const overlay = document.createElement("canvas");
     overlay.style.position = "absolute";
