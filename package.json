@@ -1,6 +1,6 @@
 {
   "name": "@particle-academy/fancy-3d",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "description": "Engine-agnostic 3D core for Particle Academy — Scene types, the <Canvas> surface, and a DOM/CSS-3D renderer. WebGL renderers (Babylon, three.js, …) ship as separate `@particle-academy/fancy-3d-<engine>` packages.",
   "repository": {
     "type": "git",
