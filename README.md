@@ -1,5 +1,7 @@
 # @particle-academy/fancy-3d
 
+[![Fancified](art/fancified.svg)](https://particle.academy)
+
 **An engine-agnostic core for blending 3D engines and 2D web components into Mixed Reality UX.** fancy-3d is the bridge layer where react-fancy components, *any* 3D engine, and 2D pan/zoom canvases compose into a single authoring surface — designed for humans and agents to build rich, data-driven 3D and MR applications without picking sides.
 
 > **fancy-3d bundles no WebGL engine and has no Babylon (or three.js) dependency.** The core ships JSON-friendly `Scene` types, the engine-pluggable `<Canvas>` with a built-in DOM/CSS-3D renderer, and shape/layout helpers — all framework-light. WebGL engines plug in via **optional sibling adapter packages** that mirror each other's API: [`@particle-academy/fancy-3d-babylon`](https://www.npmjs.com/package/@particle-academy/fancy-3d-babylon) (Babylon) and [`@particle-academy/fancy-3d-three`](https://www.npmjs.com/package/@particle-academy/fancy-3d-three) (three.js). Use one, both, or neither.
