@@ -84,7 +84,7 @@ The DOM adapter handles every kind in [Scene types](./scene.md#widgetspec):
 | profile | `<Profile>` inside `<Card>` |
 | callout | `<Callout>` with tone-mapped color |
 | form | `<Card>` with `<Switch>` and native inputs |
-| action | `<Card>` with `<Action>` buttons |
+| action | `<Card>` with `<Button>` buttons |
 | timeline | `<Card>` with `<Timeline events={...}>` |
 | code | `<Card>` with `<pre>` block + language badge |
 | image | `<Card>` wrapping `<img>` |

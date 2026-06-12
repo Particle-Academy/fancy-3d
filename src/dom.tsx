@@ -9,8 +9,8 @@
  * `@particle-academy/react-fancy` is an OPTIONAL peer dependency.
  */
 import { useEffect, useRef, type ReactNode } from "react";
-import { Action, Badge, Card, Callout, Profile, Switch, Timeline } from "@particle-academy/react-fancy";
-import type { ActionColor } from "@particle-academy/react-fancy";
+import { Button, Badge, Card, Callout, Profile, Switch, Timeline } from "@particle-academy/react-fancy";
+import type { ButtonColor } from "@particle-academy/react-fancy";
 import type { AdapterContext, ActionSpec, ScreenSpec, WidgetAdapter, WidgetSpec } from "./scene";
 
 function ScreenWidget({ spec }: { spec: ScreenSpec }) {
@@ -99,7 +99,7 @@ function Sparkline({ values, variant, color = "#6366f1" }: { values: number[]; v
   );
 }
 
-function actionColorFor(b: ActionSpec["buttons"][number]): ActionColor | undefined {
+function actionColorFor(b: ActionSpec["buttons"][number]): ButtonColor | undefined {
   if (b.variant === "primary") return "indigo";
   return undefined;
 }
@@ -254,14 +254,14 @@ function renderWidget(spec: WidgetSpec): ReactNode {
             <div className="mb-2 text-xs font-medium tracking-wide text-zinc-500 uppercase">{spec.title}</div>
             <div className="flex flex-wrap gap-2">
               {spec.buttons.map((b) => (
-                <Action
+                <Button
                   key={b.label}
                   variant={actionVariantFor(b)}
                   color={actionColorFor(b)}
                   size="sm"
                 >
                   {b.label}
-                </Action>
+                </Button>
               ))}
             </div>
           </Card.Body>
