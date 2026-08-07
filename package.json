@@ -1,7 +1,7 @@
 {
   "name": "@particle-academy/fancy-3d",
   "version": "0.4.2",
-  "description": "Engine-agnostic 3D core for Particle Academy \u2014 Scene types, the <Canvas> surface, and a DOM/CSS-3D renderer. WebGL renderers (Babylon, three.js, \u2026) ship as separate `@particle-academy/fancy-3d-<engine>` packages.",
+  "description": "Engine-agnostic 3D core for Particle Academy — Scene types, the <Canvas> surface, and a DOM/CSS-3D renderer. WebGL renderers (Babylon, three.js, …) ship as separate `@particle-academy/fancy-3d-<engine>` packages.",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Particle-Academy/fancy-3d.git"
@@ -54,7 +54,9 @@
     "dev": "tsup --watch",
     "lint": "tsc --noEmit && eslint .",
     "clean": "rm -rf dist",
-    "prepublishOnly": "tsup"
+    "prepublishOnly": "tsup",
+    "test": "vitest run",
+    "test:watch": "vitest"
   },
   "keywords": [
     "react",
@@ -66,8 +68,8 @@
   ],
   "peerDependencies": {
     "@particle-academy/react-fancy": ">=3",
-    "react": "^18.0.0 || ^19.0.0",
-    "react-dom": "^18.0.0 || ^19.0.0"
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
   },
   "peerDependenciesMeta": {
     "@particle-academy/react-fancy": {
@@ -76,15 +78,17 @@
   },
   "devDependencies": {
     "@particle-academy/react-fancy": "^4.0.0",
-    "@types/react": "^19.0.0",
-    "@types/react-dom": "^19.0.0",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
     "eslint": "^10.8.0",
     "eslint-plugin-react-hooks": "^7.1.1",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
+    "jsdom": "^29.1.1",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
     "tsup": "^8.5.0",
     "typescript": "^5.8.0",
-    "typescript-eslint": "^8.65.0"
+    "typescript-eslint": "^8.65.0",
+    "vitest": "^3.2.7"
   },
   "publishConfig": {
     "access": "public"
@@ -92,5 +96,8 @@
   "license": "MIT",
   "overrides": {
     "esbuild": "^0.28.1"
+  },
+  "engines": {
+    "node": ">=22"
   }
 }
