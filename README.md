@@ -31,7 +31,7 @@ npm install @particle-academy/fancy-3d-babylon @babylonjs/core   # Babylon
 npm install @particle-academy/fancy-3d-three   three             # three.js
 ```
 
-**fancy-3d's own peer dependencies (all optional):** `react >= 18`, `react-dom >= 18`, `@particle-academy/react-fancy`. **fancy-3d has no WebGL-engine dependency** — `@babylonjs/core` / `three` are peers of their respective *adapter* packages, never of fancy-3d itself.
+**fancy-3d's own peer dependencies (all optional):** `react ^19.0.0`, `react-dom ^19.0.0`, `@particle-academy/react-fancy`. **fancy-3d has no WebGL-engine dependency** — `@babylonjs/core` / `three` are peers of their respective *adapter* packages, never of fancy-3d itself.
 
 Install only the engines you target — fancy-3d and each adapter are split into subpath imports so unused engines never pull into your bundle.
 
