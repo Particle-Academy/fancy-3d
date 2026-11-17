@@ -17,7 +17,7 @@
 
 - **`<Canvas>`** — engine-pluggable 2D pan/zoom surface. **Defaults to `engine="dom"`** (CSS3D matrix projection, no WebGL dependency). Opt into a WebGL backend by passing an adapter engine — `babylonEngine` from `@particle-academy/fancy-3d-babylon/engine` or `threeEngine` from `@particle-academy/fancy-3d-three/engine` — or any object implementing `CanvasEngine` (native canvas / WebXR / your own). The 2D node graph and the 3D scene root live alongside each other; this is the foundation for hybrid 2D-in-3D and MR scenes.
 - **Shape primitives, layout helpers, JSON-friendly Scene types** — terse, agent-authorable scene descriptions; engine-agnostic.
-- **`<Stage>` / `<Monitor>` / `<Card3D>`** — the 3D scene primitives + 3D-native widgets ship from the **adapter packages** (`@particle-academy/fancy-3d-babylon/react`, `@particle-academy/fancy-3d-three/react`), *not* from fancy-3d core, since they need a concrete WebGL engine. (`<Monitor>` was `<Screen>` before v0.3.0.)
+- **`<Stage>` / `<Monitor>`** — the React 3D scene components ship from the **adapter packages** (`@particle-academy/fancy-3d-babylon/react`, `@particle-academy/fancy-3d-three/react`), *not* from fancy-3d core, since they need a concrete WebGL engine. Extruded cards are a mesh primitive there (`createCard3D` from the adapter's root entry), not a React component. (`<Monitor>` was `<Screen>` before v0.3.0.)
 
 ## Why fancy-3d exists
 
@@ -134,7 +134,7 @@ The data layer underneath is engine-agnostic — the same `Scene` JSON renders v
 @particle-academy/fancy-3d/dom       DOM adapter — renders Scene to react-fancy components
 @particle-academy/fancy-3d/canvas    the engine-pluggable <Canvas> surface
 
-# WebGL engines + <Stage>/<Monitor>/<Card3D> live in OPTIONAL sibling adapter packages:
+# WebGL engines + <Stage>/<Monitor> live in OPTIONAL sibling adapter packages:
 @particle-academy/fancy-3d-babylon          Babylon adapter + 3D shape primitives
 @particle-academy/fancy-3d-babylon/react    <Stage> + <Monitor> (Babylon)
 @particle-academy/fancy-3d-babylon/engine   babylonEngine for <Canvas engine={…}>
@@ -155,11 +155,11 @@ The data layer underneath is engine-agnostic — the same `Scene` JSON renders v
 
 ## Inertia.js integration
 
-fancy-3d is **not SSR-safe** — WebGL engines need `window` and DOM/CSS3D positioning needs layout measurement. In an Inertia app, wrap every `<Stage>` / `<Monitor>` / `<Card3D>` / `<Canvas engine={babylonEngine}>` in [`<FancyClientOnly>`](https://github.com/Particle-Academy/fancy-inertia/blob/main/docs/USAGE.md#fancyclientonly) from `@particle-academy/fancy-inertia`:
+fancy-3d is **not SSR-safe** — WebGL engines need `window` and DOM/CSS3D positioning needs layout measurement. In an Inertia app, wrap every `<Stage>` / `<Monitor>` / `<Canvas engine={babylonEngine}>` in [`<FancyClientOnly>`](https://github.com/Particle-Academy/fancy-inertia/blob/main/docs/USAGE.md#fancyclientonly) from `@particle-academy/fancy-inertia`:
 
 ```tsx
 import { FancyClientOnly } from "@particle-academy/fancy-inertia";
-import { Stage, Monitor } from "@particle-academy/fancy-3d/react";
+import { Stage, Monitor } from "@particle-academy/fancy-3d-babylon/react";
 
 <FancyClientOnly fallback={<div className="h-[600px] animate-pulse rounded bg-zinc-100" />}>
   <Stage>

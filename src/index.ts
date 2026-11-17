@@ -7,14 +7,14 @@
  * that actually need WebGL:
  *
  *   - `@particle-academy/fancy-3d-babylon` — BabylonJS adapter (Stage, Monitor,
- *     Card3D, primitives, layouts; WebGL renderer)
+ *     primitives incl. createCard3D, layouts; WebGL renderer)
  *   - sibling packages can ship three.js, WebGPU, WebXR, etc.
  *
  * Typical import shape:
  *
  *   import { Scene, ScreenSpec, Canvas } from "@particle-academy/fancy-3d";
  *   import { domAdapter }                from "@particle-academy/fancy-3d/dom";
- *   import { Stage, Monitor, Card3D }    from "@particle-academy/fancy-3d-babylon/react";
+ *   import { Stage, Monitor }            from "@particle-academy/fancy-3d-babylon/react";
  *   import { babylonEngine }             from "@particle-academy/fancy-3d-babylon/engine";
  *
  * `@particle-academy/react-fancy` is an optional peer dependency — only the
